@@ -99,7 +99,7 @@ public class NCConfigManager
      * Gets the configuration.
      *
      * @return {@link NCConfig} instance containing values from config file if not null, otherwise, configuration wasn't
-     * sucessfully loaded
+     * successfully loaded
      */
     @Nullable
     public NCConfig getConfig()
