@@ -1,9 +1,9 @@
 package website.nickb.nettycoder.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
@@ -64,11 +64,11 @@ public class NCConfigManager
         }
     }
 
-    private boolean loadConfigFile() throws FileNotFoundException
+    private boolean loadConfigFile() throws IOException
     {
-        Yaml yaml = new Yaml(new Constructor(NCConfig.class));
-        InputStream configInputStream = new FileInputStream(configFile);
-        config = yaml.load(configInputStream);
+        // Initialize YAML ObjectMapper (Jackson)
+        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+        config = objectMapper.readValue(configFile, NCConfig.class);
 
         return config != null;
     }
