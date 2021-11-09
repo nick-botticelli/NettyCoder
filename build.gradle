@@ -1,0 +1,50 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+    id 'java'
+}
+
+group 'website.nickb'
+version '0.1.0-SNAPSHOT'
+
+defaultTasks 'shadowJar'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+jar {
+    manifest.attributes(
+            'Main-Class': 'website.nickb.nettycoder.NettyCoder',
+            'Multi-Release': true)
+}
+
+shadowJar {
+    minimize {
+        exclude(dependency('org.apache.logging.log4j:log4j-core:.*'))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.69.Final'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+    implementation group: 'org.jetbrains', name: 'annotations', version: '22.0.0'
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Reproducible builds
+tasks.withType(AbstractArchiveTask) {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}

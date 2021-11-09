@@ -1,0 +1,8 @@
+# This is the configuration for NettyCoder. It is a YAML file, so the entire
+# file needs to be valid YAML format or else it will fail to load properly.
+
+# Configuration file version. Do not modify.
+version: 0
+
+# This is the port that NettyCoder will bind to when running
+port: 18600
