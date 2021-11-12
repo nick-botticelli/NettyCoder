@@ -26,19 +26,27 @@ public class NettyCoder
         }
         catch (IOException exc)
         {
-            logger.error("There was an exception when loading the configuration!");
+            logger.fatal("There was an exception when loading the configuration!");
             exc.printStackTrace();
             return;
         }
 
         if (config == null)
         {
-            logger.error("There was an error loading the configuration (config instance is null)!");
+            logger.fatal("There was an error loading the configuration (config instance is null)!");
             return;
         }
 
         logger.info("Starting up NettyCoder server on port {}...", config.port);
 
         NCServer server = new NCServer(logger, config.port);
+        try
+        {
+            server.start();
+        }
+        catch (InterruptedException exc)
+        {
+            exc.printStackTrace();
+        }
     }
 }
