@@ -45,22 +45,19 @@ public class NCConfigManager
     {
         this.configFile = new File(configPath);
 
-        if (configFile.exists())
+        // If configuration file does not exist on disk, generate it
+        if (!configFile.exists())
+            generateConfigFile();
+
+        if (configFile.isFile())
         {
-            if (configFile.isFile())
-            {
-                if (!loadConfigFile())
-                    throw new IOException("Configuration could not be read from file (invalid YAML?)!");
-            }
-            else
-            {
-                throw new FileAlreadyExistsException("Configuration file at \"" + configFile.getAbsolutePath()
-                        + "\" already exists as a directory!");
-            }
+            if (!loadConfigFile())
+                throw new IOException("Configuration could not be read from file (invalid YAML?)!");
         }
         else
         {
-            generateConfigFile();
+            throw new FileAlreadyExistsException("Configuration file at \"" + configFile.getAbsolutePath()
+                    + "\" already exists as a directory!");
         }
     }
 
