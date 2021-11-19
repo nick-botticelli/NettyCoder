@@ -85,6 +85,7 @@ public class NCServer
      *
      * @return Current {@link NCServer} instance object
      */
+    @NotNull
     public NCServer getInstance()
     {
         return this;
@@ -95,8 +96,20 @@ public class NCServer
      *
      * @return JSON {@link ObjectMapper}
      */
+    @NotNull
     public ObjectMapper getObjectMapper()
     {
         return objectMapper;
+    }
+
+    @NotNull
+    public Logger getLogger()
+    {
+        return logger;
+    }
+
+    public int getPort()
+    {
+        return port;
     }
 }
