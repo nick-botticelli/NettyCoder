@@ -47,4 +47,4 @@ jobs:
           name: JAR artifacts
           path: |
             client/build/libs
-            server/build/reports
+            server/build/libs
