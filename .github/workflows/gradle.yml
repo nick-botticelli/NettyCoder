@@ -41,6 +41,7 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew test
       - name: Upload artifacts
+        if: matrix.java == '8'
         uses: actions/upload-artifact@v2
         with:
           name: JAR artifacts
