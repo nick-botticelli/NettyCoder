@@ -26,3 +26,14 @@ subprojects {
 
     group 'website.nickb'
 }
+
+// Default task that runs all subproject default tasks
+evaluationDependsOnChildren()
+task runDefaultTasks {
+    subprojects.each { subproject ->
+        subproject.defaultTasks.each {
+            dependsOn subproject.path + ":" + it
+        }
+    }
+}
+defaultTasks 'runDefaultTasks'
