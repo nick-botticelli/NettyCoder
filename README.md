@@ -9,7 +9,7 @@ YAML for configuration, generics for enhanced code reuse, and a multi-threaded H
 1. Download or clone repository
 2. Build project with Gradle by using the command `./gradlew` on Unix-like operating systems or `.\gradlew` on Windows
    (refer to the [Java CI with Gradle GitHub workflow](./.github/workflows/gradle.yml) for more information). Output is 
-   located in `./build/libs` on Unix-like operating systems or `.\build\libs` on Windows.
+   located in `build/libs` in both the `client` and `server` directories.
 3. Optionally, run tests with the command `./gradlew test` on Unix-like operating systems or `.\gradlew test` on
    Windows.
 
