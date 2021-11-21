@@ -9,7 +9,7 @@ import website.nickb.nettycoder.server.NCServer;
 
 import java.io.IOException;
 
-public class NettyCoder
+public final class NettyCoder
 {
     public static void main(@NotNull String[] args)
     {
