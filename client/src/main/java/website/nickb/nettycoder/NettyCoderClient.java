@@ -1,4 +1,4 @@
-package website.nickb.nettycoderclient;
+package website.nickb.nettycoder;
 
 import org.jetbrains.annotations.NotNull;
 
