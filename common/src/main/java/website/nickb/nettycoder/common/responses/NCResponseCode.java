@@ -1,4 +1,4 @@
-package website.nickb.nettycoder.server.responses;
+package website.nickb.nettycoder.common.responses;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

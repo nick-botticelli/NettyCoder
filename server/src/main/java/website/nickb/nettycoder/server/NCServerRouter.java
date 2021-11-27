@@ -4,19 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import website.nickb.nettycoder.common.requests.NCRequest;
+import website.nickb.nettycoder.common.requests.NCRequestType;
+import website.nickb.nettycoder.common.responses.NCResponse;
+import website.nickb.nettycoder.server.handlers.impl.NCQueryRequestHandler;
 import website.nickb.nettycoder.server.handlers.NCRequestHandler;
-import website.nickb.nettycoder.server.requests.NCRequest;
-import website.nickb.nettycoder.server.requests.NCRequestType;
-import website.nickb.nettycoder.server.responses.NCResponse;
-import website.nickb.nettycoder.util.Constants;
+import website.nickb.nettycoder.server.util.Constants;
 
 import java.io.IOException;
 import java.util.EnumMap;
@@ -36,6 +34,7 @@ public class NCServerRouter extends SimpleChannelInboundHandler<FullHttpRequest>
         this.requestHandlers = new EnumMap<>(NCRequestType.class);
 
         // Initialize request handlers
+        requestHandlers.put(NCRequestType.QUERY_TASK, new NCQueryRequestHandler());
     }
 
     @Override
@@ -59,12 +58,12 @@ public class NCServerRouter extends SimpleChannelInboundHandler<FullHttpRequest>
         }
 
         // Deserialize JSON request
-        NCRequest<?> requestObj = null;
+        NCRequest<?> requestObj;
         try
         {
             requestObj = objMapper.readValue(data, NCRequest.class);
         }
-        catch (IOException exc)
+        catch (IOException ignored)
         {
             finishAndSendResponse(ctx, msg, Constants.SERVER_INVALID_JSON_RESPONSE);
             return;
@@ -92,7 +91,7 @@ public class NCServerRouter extends SimpleChannelInboundHandler<FullHttpRequest>
         {
             responseData = objMapper.writeValueAsBytes(responseObj);
         }
-        catch (JsonProcessingException exc)
+        catch (JsonProcessingException ignored)
         {
             finishAndSendResponse(ctx, msg, Constants.SERVER_JSON_ERROR_RESPONSE);
             return;
@@ -107,24 +106,28 @@ public class NCServerRouter extends SimpleChannelInboundHandler<FullHttpRequest>
      * @param data bytes to encode in the body of an error response
      * @return a {@link DefaultFullHttpResponse} for creating a finished HTTP response
      */
-    public static DefaultFullHttpResponse createResponse(HttpResponseStatus status, byte[] data)
+    @NotNull
+    public static DefaultFullHttpResponse createResponse(@NotNull HttpResponseStatus status, @NotNull byte[] data)
     {
         return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status, Unpooled.wrappedBuffer(data));
     }
 
     /**
-     * Finish creating and send the {@link FullHttpResponse}
+     * Finish creating and send the response
      *
-     * @param response the (un-finished) {@link FullHttpResponse} to send to the client
+     * @param context context in which to send the finished response (e.g., {@link ChannelHandlerContext})
+     * @param request original request to get required information from (e.g., keep alive)
+     * @param response the (un-finished) {@link FullHttpMessage} response to send to the client
      */
-    public void finishAndSendResponse(@NotNull ChannelHandlerContext context, @NotNull FullHttpRequest request,
-                                      @NotNull FullHttpResponse response)
+    public void finishAndSendResponse(@NotNull ChannelOutboundInvoker context, @NotNull HttpMessage request,
+                                      @NotNull FullHttpMessage response)
     {
         response.headers().set(HttpHeaderNames.SERVER, Constants.SERVER_HEADER);
         response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json");
 
         ChannelFuture channelFuture;
-        if (io.netty.handler.codec.http.HttpUtil.isKeepAlive(request))
+        if (HttpUtil.isKeepAlive(request))
         {
             response.headers().set(HttpHeaderNames.CONNECTION, "keep-alive");
             channelFuture = context.writeAndFlush(response);

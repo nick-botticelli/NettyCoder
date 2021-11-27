@@ -1,8 +1,22 @@
 # This is the configuration for NettyCoder. It is a YAML file, so the entire
 # file needs to be valid YAML format or else it will fail to load properly.
+# The default values should work fine for basic usage.
 
 # Configuration file version. Do not modify.
 version: 0
 
-# This is the port that NettyCoder will bind to when running
+# This is the port that NettyCoder will bind to when running. Make sure it is
+# allowed through any firewall if NettyCoder should be accessible externally
+# (e.g., through the internet).
 port: 18600
+
+
+
+###############################
+##     ADVANCED SETTINGS     ##
+###############################
+
+# Maximum length of content (in bytes) that can be sent by the client in a
+# single request.
+# Default is 10485760 (10 MiB)
+max-content-length: 10485760

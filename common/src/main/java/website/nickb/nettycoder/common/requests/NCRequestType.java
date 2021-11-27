@@ -1,15 +1,16 @@
-package website.nickb.nettycoder.server.requests;
+package website.nickb.nettycoder.common.requests;
 
 import it.unimi.dsi.fastutil.ints.Int2ReferenceMap;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
-import website.nickb.nettycoder.util.CollectionsUtil;
+import website.nickb.nettycoder.common.util.CollectionsUtil;
 
 public enum NCRequestType
 {
     QUERY_TASK(0),
     CREATE_TASK(1),
     CANCEL_TASK(2),
-    MODIFY_TASK(3);
+    MODIFY_TASK(3),
+    SEARCH_TASK(4);
 
     public static final int COUNT = 4;
 

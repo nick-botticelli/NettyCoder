@@ -1,4 +1,4 @@
-package website.nickb.nettycoder.config;
+package website.nickb.nettycoder.server.config;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;

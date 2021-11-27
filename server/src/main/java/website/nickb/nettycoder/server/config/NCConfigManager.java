@@ -1,4 +1,4 @@
-package website.nickb.nettycoder.config;
+package website.nickb.nettycoder.server.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;

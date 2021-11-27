@@ -1,4 +1,4 @@
-package website.nickb.nettycoder.util;
+package website.nickb.nettycoder.server.util;
 
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -12,6 +12,8 @@ public final class Constants
     public static final String SERVER_NAME = "NettyCoder";
     public static final String SERVER_VERSION = "v0.1.0";
     public static final String SERVER_HEADER = Constants.SERVER_NAME + " " + Constants.SERVER_VERSION;
+
+    public static final int TEN_MIB = 10485760;
 
     public static final byte[] SERVER_EMPTY_CONTENT = "Empty content".getBytes(StandardCharsets.UTF_8);
     public static final byte[] SERVER_JSON_ERROR = "Error encoding JSON".getBytes(StandardCharsets.UTF_8);

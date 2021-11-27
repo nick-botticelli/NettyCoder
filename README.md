@@ -2,8 +2,9 @@
 [![Java CI with Gradle](https://github.com/nick-botticelli/NettyCoder/workflows/Java%20CI%20with%20Gradle/badge.svg)](https://github.com/nick-botticelli/NettyCoder/actions?query=workflow%3A%22Java+CI+with+Gradle%22)
 
 NettyCoder is a custom HTTP server for encoding videos. Built with Java, Netty, Jackson, SnakeYAML, and FastUtil, this
-project utilizes test-driven development (TDD), continuous integration (CI), JSON technology for requests and responses,
-YAML for configuration, generics for enhanced code reuse, and a multi-threaded HTTP protocol.
+project utilizes test-driven development (TDD), continuous integration (CI), multi-project Gradle structure, JSON
+technology for requests and responses, YAML for configuration, generics for enhanced code reuse, and a multi-threaded
+HTTP protocol.
 
 ## Building
 1. Download or clone repository

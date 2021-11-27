@@ -1,15 +1,14 @@
-package website.nickb.nettycoder;
+package website.nickb.nettycoder.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import website.nickb.nettycoder.config.NCConfig;
-import website.nickb.nettycoder.config.NCConfigManager;
-import website.nickb.nettycoder.server.NCServer;
+import website.nickb.nettycoder.server.config.NCConfig;
+import website.nickb.nettycoder.server.config.NCConfigManager;
 
 import java.io.IOException;
 
-public final class NettyCoder
+public final class NettyCoderServer
 {
     public static void main(@NotNull String[] args)
     {

@@ -1,4 +1,4 @@
-package website.nickb.nettycoder.server.requests;
+package website.nickb.nettycoder.common.requests;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

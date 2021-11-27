@@ -6,10 +6,13 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpContentCompressor;
+import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import website.nickb.nettycoder.server.util.Constants;
 
 public class NCServer
 {
@@ -17,14 +20,21 @@ public class NCServer
 
     private final Logger logger;
     private final int port;
+    private final int maxContentLength;
 
     public NCServer(@NotNull Logger logger, int port)
+    {
+        this(logger, port, Constants.TEN_MIB);
+    }
+
+    public NCServer(@NotNull Logger logger, int port, int maxContentLength)
     {
         // Create JSON ObjectMapper (Jackson)
         this.objectMapper = new ObjectMapper();
 
         this.logger = logger;
         this.port = port;
+        this.maxContentLength = maxContentLength;
     }
 
     /**
@@ -39,6 +49,12 @@ public class NCServer
         {
             logger.debug("Setting up Netty...");
 
+            HttpServerCodec codec = new HttpServerCodec();
+            HttpContentCompressor compress = new HttpContentCompressor();
+            HttpContentDecompressor decompress = new HttpContentDecompressor();
+            HttpObjectAggregator aggregator = new HttpObjectAggregator(maxContentLength);
+            NCServerRouter request = new NCServerRouter(this);
+
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup);
             serverBootstrap.channel(NioServerSocketChannel.class);
@@ -47,29 +63,24 @@ public class NCServer
                 @Override
                 protected void initChannel(@NotNull SocketChannel channel)
                 {
-                    logger.debug("Initializing server channel...");
+                    logger.debug("Initializing channel...");
 
-                    // SSL
-                    /*SelfSignedCertificate cert = new SelfSignedCertificate();
-                    SslContext cont2 = SslContextBuilder.forServer(cert.privateKey(), cert.certificate()).build();
-                    SSLEngine engine = cont2.newEngine(channel.alloc());*/
-
+                    // TODO: Add optional SSL support
                     ChannelPipeline pipeline = channel.pipeline();
-                    //pipeline.addLast("ssl", new SslHandler(engine));
-                    pipeline.addLast(new HttpServerCodec());
-                    pipeline.addLast(new HttpObjectAggregator(Integer.MAX_VALUE));
-                    pipeline.addLast(new NCServerRouter(getInstance()));
-
-                    logger.debug("Initialized server channel.");
+                    pipeline.addLast("codec", codec);
+                    pipeline.addLast("compress", compress);
+                    pipeline.addLast("decompress", decompress);
+                    pipeline.addLast("aggregator", aggregator);
+                    pipeline.addLast("request", request);
                 }
             })
-            .option(ChannelOption.SO_BACKLOG, 128)
-            .childOption(ChannelOption.SO_KEEPALIVE, true);
+            .option(ChannelOption.SO_BACKLOG, 128) // TODO: Add config value
+            .childOption(ChannelOption.SO_KEEPALIVE, true); // TODO: Add config value
 
             logger.debug("Binding to port " + this.port + "...");
             Channel serverChannel = serverBootstrap.bind(this.port).sync().channel();
 
-            logger.debug("Setup channel socket close...");
+            logger.debug("Setup channel socket close future...");
             serverChannel.closeFuture().sync();
         }
         finally

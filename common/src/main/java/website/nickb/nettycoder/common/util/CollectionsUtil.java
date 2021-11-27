@@ -1,4 +1,4 @@
-package website.nickb.nettycoder.util;
+package website.nickb.nettycoder.common.util;
 
 public final class CollectionsUtil
 {
