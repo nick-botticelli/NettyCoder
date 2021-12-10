@@ -21,10 +21,6 @@ shadowJar {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation project(':common')
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'

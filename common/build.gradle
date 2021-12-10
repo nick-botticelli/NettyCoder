@@ -6,10 +6,6 @@ defaultTasks 'jar'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
