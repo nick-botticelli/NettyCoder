@@ -26,7 +26,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
     implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
     implementation group: 'info.picocli', name: 'picocli', version: '4.6.3'
-    implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.7'
+    implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation group: 'org.jetbrains', name: 'annotations', version: '23.0.0'
 
