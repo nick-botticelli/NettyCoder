@@ -23,7 +23,7 @@ shadowJar {
 
 dependencies {
     implementation project(':common')
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2'
     implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
     implementation group: 'info.picocli', name: 'picocli', version: '4.6.3'
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
