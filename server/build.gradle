@@ -23,7 +23,7 @@ shadowJar {
 
 dependencies {
     implementation project(':common')
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.1'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.13.2'
     implementation group: 'io.netty', name: 'netty-all', version: '4.1.75.Final'
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
